@@ -3,7 +3,6 @@ package com.revature.app;
 import com.revature.controller.AuthenticationController;
 import com.revature.controller.Controller;
 import com.revature.controller.ExceptionMapper;
-import com.revature.controller.StudentController;
 
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
@@ -17,7 +16,7 @@ public class Application {
 			config.addStaticFiles("static", Location.CLASSPATH);
 		});
 		
-		mapControllers(app, new AuthenticationController(), new StudentController());
+		mapControllers(app, new AuthenticationController());
 		
 		ExceptionMapper mapper = new ExceptionMapper();
 		mapper.mapExceptions(app);
