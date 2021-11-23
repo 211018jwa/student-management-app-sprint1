@@ -1,5 +1,6 @@
 package com.revature.app;
 
+import com.revature.controller.AssignmentController;
 import com.revature.controller.AuthenticationController;
 import com.revature.controller.Controller;
 import com.revature.controller.ExceptionMapper;
@@ -16,7 +17,7 @@ public class Application {
 			config.addStaticFiles("static", Location.CLASSPATH);
 		});
 		
-		mapControllers(app, new AuthenticationController());
+		mapControllers(app, new AuthenticationController(), new AssignmentController());
 		
 		ExceptionMapper mapper = new ExceptionMapper();
 		mapper.mapExceptions(app);

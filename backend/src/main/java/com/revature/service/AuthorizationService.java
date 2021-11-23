@@ -8,16 +8,16 @@ import com.revature.model.User;
 // Authorization is about checking whether you have the permissions to access a particular thing
 public class AuthorizationService {
 
-	public void authorizeRegularAndAdmin(User user) throws UnauthorizedException {
+	public void authorizeAssociateAndTrainer(User user) throws UnauthorizedException {
 		// If the user is not either a regular role or admin role
-		if (user == null || !(user.getUserRole().equals("regular") || user.getUserRole().equals("admin"))) {
-			throw new UnauthorizedException("You must have a regular or admin role to access this resource");
+		if (user == null || !(user.getUserRole().equals("associate") || user.getUserRole().equals("trainer"))) {
+			throw new UnauthorizedException("You must be logged in and have a role of associate or trainer for this resource");
 		}
 	}
 	
-	public void authorizeAdmin(User user) throws UnauthorizedException {
-		if (user == null || !user.getUserRole().equals("admin")) {
-			throw new UnauthorizedException("You must have an admin role to access this resource");
+	public void authorizeTrainer(User user) throws UnauthorizedException {
+		if (user == null || !user.getUserRole().equals("trainer")) {
+			throw new UnauthorizedException("You must be logged in and have a role of trainer for this resource");
 		}
 	}
 	
