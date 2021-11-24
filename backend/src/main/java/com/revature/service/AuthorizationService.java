@@ -20,5 +20,12 @@ public class AuthorizationService {
 			throw new UnauthorizedException("You must be logged in and have a role of trainer for this resource");
 		}
 	}
+
+	public void authorizeAssociate(User user) throws UnauthorizedException {
+		// if we are not logged in, or do not have a role of associate
+		if (user == null || !user.getUserRole().equals("associate")) {
+			throw new UnauthorizedException("You must be logged in and have a role of associate for this resource");
+		}
+	}
 	
 }

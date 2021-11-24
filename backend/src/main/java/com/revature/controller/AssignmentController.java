@@ -1,6 +1,9 @@
 package com.revature.controller;
 
+import java.io.InputStream;
 import java.util.List;
+
+import org.apache.tika.Tika;
 
 import com.revature.dto.ChangeGradeDTO;
 import com.revature.model.Assignment;
@@ -10,6 +13,7 @@ import com.revature.service.AuthorizationService;
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
+import io.javalin.http.UploadedFile;
 
 public class AssignmentController implements Controller {
 
@@ -47,10 +51,57 @@ public class AssignmentController implements Controller {
 		ctx.json(changedAssignment);
 	};
 	
+	private Handler addAssignment = (ctx) -> {
+		// Protect endpoint
+		User currentlyLoggedInUser = (User) ctx.req.getSession().getAttribute("currentuser");
+		this.authService.authorizeAssociate(currentlyLoggedInUser);
+		
+		
+		String assignmentName = ctx.formParam("assignment_name");
+		
+		/*
+		 * Extracting file from HTTP Request
+		 */
+		UploadedFile file = ctx.uploadedFile("assignment_image");
+		InputStream content = file.getContent(); // This is the most important. It is the actual content of the file
+
+		Tika tika = new Tika();
+		
+		// We want to disallow users from uploading files that are not jpeg, gif, or png
+		// So, in the controller layer, figure out the MIME type of the file
+		// jpeg = image/jpeg
+		// gif = image/gif
+		// png = image/png
+		String mimeType = tika.detect(content);
+		
+		// Service layer invocation
+		Assignment addedAssignment = this.assignmentService.addAssignment(currentlyLoggedInUser, mimeType, assignmentName, content);
+		ctx.json(addedAssignment);
+		ctx.status(201);
+	};
+	
+	private Handler getImageFromAssignmentById = (ctx) -> {
+		// protect endpoint
+		User currentlyLoggedInUser = (User) ctx.req.getSession().getAttribute("currentuser");
+		this.authService.authorizeAssociateAndTrainer(currentlyLoggedInUser);
+		
+		String assignmentId = ctx.pathParam("id");
+		
+		InputStream image = this.assignmentService.getImageFromAssignmentById(currentlyLoggedInUser, assignmentId);
+		
+		Tika tika = new Tika();
+		String mimeType = tika.detect(image);
+		
+		ctx.contentType(mimeType); // specifying to the client what the type of the content actually is
+		ctx.result(image); // Sending the image back to the client
+	};
+	
 	@Override
 	public void mapEndpoints(Javalin app) {
 		app.get("/assignments", getAssignments);
 		app.patch("/assignments/{id}/grade", changeGrade);
+		app.post("/assignments", addAssignment);
+		app.get("/assignments/{id}/image", getImageFromAssignmentById);
 	}
 
 }
