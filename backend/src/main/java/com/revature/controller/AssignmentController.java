@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.tika.Tika;
 
 import com.revature.dto.ChangeGradeDTO;
+import com.revature.dto.MessageDTO;
 import com.revature.model.Assignment;
 import com.revature.model.User;
 import com.revature.service.AssignmentService;
@@ -63,6 +64,13 @@ public class AssignmentController implements Controller {
 		 * Extracting file from HTTP Request
 		 */
 		UploadedFile file = ctx.uploadedFile("assignment_image");
+		
+		if (file == null) {
+			ctx.status(400);
+			ctx.json(new MessageDTO("Must have an image to upload"));
+			return;
+		}
+		
 		InputStream content = file.getContent(); // This is the most important. It is the actual content of the file
 
 		Tika tika = new Tika();
