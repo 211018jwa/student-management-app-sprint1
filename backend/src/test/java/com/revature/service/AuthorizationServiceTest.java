@@ -17,7 +17,7 @@ public class AuthorizationServiceTest {
 	}
 	
 	@Test
-	public void authorizeAssociateAndTrainer_negativeTest_userIsAssociateButRequiresTrainerPermissions() throws UnauthorizedException {
+	public void authorizeTrainer_negativeTest_userIsAssociateButRequiresTrainerPermissions() throws UnauthorizedException {
 		User user = new User(1, "Bach", "Tran", "bach_tran", "pass123", "associate"); 
 		
 		
@@ -25,6 +25,20 @@ public class AuthorizationServiceTest {
 			this.authService.authorizeTrainer(user);
 		});
 		
+	}
+	
+	@Test
+	public void authorizeTrainer_negativeTest_userIsNull() {		
+		Assertions.assertThrows(UnauthorizedException.class, () -> {
+			this.authService.authorizeTrainer(null);
+		});
+	}
+	
+	@Test
+	public void authorizeTrainer_positiveTest_userIsATrainer() throws UnauthorizedException {
+		User user = new User(1, "Bach", "Tran", "bach_tran", "pass123", "trainer");
+		
+		this.authService.authorizeTrainer(user);
 	}
 	
 }
