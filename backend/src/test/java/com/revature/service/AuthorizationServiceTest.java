@@ -72,5 +72,37 @@ public class AuthorizationServiceTest {
 		this.authService.authorizeAssociate(user);
 	}
 	
+	/*
+	 * authorizeAssociateAndTrainer
+	 */
+	@Test
+	public void authorizeAssociateAndTrainer_negativeTest_userIsNotAssociateOrTrainer() {
+		User user = new User(1, "Bach", "Tran", "bach_tran", "pass123", "qc");
+		
+		Assertions.assertThrows(UnauthorizedException.class, () -> {
+			this.authService.authorizeAssociateAndTrainer(user);
+		});
+	}
+	
+	@Test
+	public void authorizeAssociateAndTrainer_negativeTest_userIsNull() {
+		Assertions.assertThrows(UnauthorizedException.class, () -> {
+			this.authService.authorizeAssociateAndTrainer(null);
+		});
+	}
+	
+	@Test
+	public void authorizeAssociateAndTrainer_positiveTest_userIsAssociate() throws UnauthorizedException {
+		User user = new User(1, "Bach", "Tran", "bach_tran", "pass123", "associate");
+		
+		this.authService.authorizeAssociateAndTrainer(user);
+	}
+	
+	@Test
+	public void authorizeAssociateAndTrainer_positiveTest_userIsTrainer() throws UnauthorizedException {
+		User user = new User(1, "Bach", "Tran", "bach_tran", "pass123", "trainer");
+		
+		this.authService.authorizeAssociateAndTrainer(user);
+	}
 	
 }
