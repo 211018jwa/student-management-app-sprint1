@@ -14,7 +14,7 @@ public class Application {
 		Javalin app = Javalin.create((config) -> {
 			config.enableCorsForAllOrigins();
 			
-//			config.addStaticFiles("static", Location.CLASSPATH);
+			config.addStaticFiles("static", Location.CLASSPATH);
 		});
 		
 		mapControllers(app, new AuthenticationController(), new AssignmentController());
