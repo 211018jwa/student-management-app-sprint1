@@ -48,10 +48,13 @@ async function populateTableWithAssignments() {
         let td3 = document.createElement('td'); // grade
         let td4 = document.createElement('td'); // grader id
 
+        let td5 = document.createElement('td');
+        td5.innerHTML = assignment.authorId;
+
         // If the assignment has already been graded, display the grade and graderId
-        let td6 = document.createElement('td');
-        let td7 = document.createElement('td');
-        let td8 = document.createElement('td');
+        let td6 = document.createElement('td'); // grade button
+        let td7 = document.createElement('td'); // grade input
+        let td8 = document.createElement('td'); // view image button
 
         let viewImageButton = document.createElement('button');
         viewImageButton.innerHTML = 'View Image';
@@ -116,9 +119,18 @@ async function populateTableWithAssignments() {
             td7.appendChild(gradeInput);
         }
  
+        let td9 = document.createElement('td'); // a first name
+        td9.innerHTML = assignment.authorfirstName;
 
-        let td5 = document.createElement('td');
-        td5.innerHTML = assignment.authorId;
+        let td10 = document.createElement('td'); // a last name
+        td10.innerHTML = assignment.authorlastName;
+
+        let td11 = document.createElement('td'); // g first name
+        td11.innerHTML = assignment.graderFirstName;
+
+        let td12 = document.createElement('td'); // g last name
+        td12.innerHTML = assignment.graderLastName;
+        
 
         tr.appendChild(td1);
         tr.appendChild(td2);
@@ -128,6 +140,10 @@ async function populateTableWithAssignments() {
         tr.appendChild(td6);
         tr.appendChild(td7);
         tr.appendChild(td8);
+        tr.appendChild(td9);
+        tr.appendChild(td10);
+        tr.appendChild(td11);
+        tr.appendChild(td12);
 
         tbodyElement.appendChild(tr);
     }

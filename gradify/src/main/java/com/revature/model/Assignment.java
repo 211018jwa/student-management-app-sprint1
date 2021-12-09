@@ -10,6 +10,11 @@ public class Assignment {
 	private int graderId;
 	private int authorId;
 	
+	private String authorfirstName;
+	private String authorlastName;
+	private String graderFirstName;
+	private String graderLastName;
+	
 	public Assignment() {
 		super();
 	}
@@ -21,6 +26,52 @@ public class Assignment {
 		this.grade = grade;
 		this.graderId = graderId;
 		this.authorId = authorId;
+	}
+	
+	public Assignment(int id, String assignmentName, int grade, int graderId, int authorId, String authorFirstName, String
+					authorLastName, String graderFirstName, String graderLastName) {
+		this.id = id;
+		this.assignmentName = assignmentName;
+		this.grade = grade;
+		this.graderId = graderId;
+		this.authorId = authorId;
+		this.authorfirstName = authorFirstName;
+		this.authorlastName = authorLastName;
+		this.graderFirstName = graderFirstName;
+		this.graderLastName = graderLastName;
+		
+	}
+
+	public String getAuthorfirstName() {
+		return authorfirstName;
+	}
+
+	public void setAuthorfirstName(String authorfirstName) {
+		this.authorfirstName = authorfirstName;
+	}
+
+	public String getAuthorlastName() {
+		return authorlastName;
+	}
+
+	public void setAuthorlastName(String authorlastName) {
+		this.authorlastName = authorlastName;
+	}
+
+	public String getGraderFirstName() {
+		return graderFirstName;
+	}
+
+	public void setGraderFirstName(String graderFirstName) {
+		this.graderFirstName = graderFirstName;
+	}
+
+	public String getGraderLastName() {
+		return graderLastName;
+	}
+
+	public void setGraderLastName(String graderLastName) {
+		this.graderLastName = graderLastName;
 	}
 
 	public int getId() {
@@ -65,7 +116,8 @@ public class Assignment {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(assignmentName, authorId, grade, graderId, id);
+		return Objects.hash(assignmentName, authorId, authorfirstName, authorlastName, grade, graderFirstName, graderId,
+				graderLastName, id);
 	}
 
 	@Override
@@ -78,13 +130,18 @@ public class Assignment {
 			return false;
 		Assignment other = (Assignment) obj;
 		return Objects.equals(assignmentName, other.assignmentName) && authorId == other.authorId
-				&& grade == other.grade && graderId == other.graderId && id == other.id;
+				&& Objects.equals(authorfirstName, other.authorfirstName)
+				&& Objects.equals(authorlastName, other.authorlastName) && grade == other.grade
+				&& Objects.equals(graderFirstName, other.graderFirstName) && graderId == other.graderId
+				&& Objects.equals(graderLastName, other.graderLastName) && id == other.id;
 	}
 
 	@Override
 	public String toString() {
 		return "Assignment [id=" + id + ", assignmentName=" + assignmentName + ", grade=" + grade + ", graderId="
-				+ graderId + ", authorId=" + authorId + "]";
+				+ graderId + ", authorId=" + authorId + ", authorfirstName=" + authorfirstName + ", authorlastName="
+				+ authorlastName + ", graderFirstName=" + graderFirstName + ", graderLastName=" + graderLastName + "]";
 	}
+
 
 }

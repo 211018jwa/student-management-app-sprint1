@@ -18,7 +18,13 @@ public class AssignmentDAO {
 		try (Connection con = JDBCUtility.getConnection()) {
 			List<Assignment> assignments = new ArrayList<>();
 			
-			String sql = "SELECT id, assignment_name, grade, grader_id, author_id FROM httpsession_demo.assignments";
+			String sql = "SELECT assign.id, assign.assignment_name, assign.grade, assign.grader_id, assign.author_id, " +
+					"a.first_name as a_first_name, a.last_name as a_last_name, g.first_name as g_first_name, g.last_name as g_last_name " +  
+					"FROM httpsession_demo.assignments assign " + 
+					"INNER JOIN httpsession_demo.users a " + 
+					"ON assign.author_id = a.id " + 
+					"LEFT JOIN httpsession_demo.users g " + 
+					"ON assign.grader_id = g.id";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			
 			ResultSet rs = pstmt.executeQuery();
@@ -29,8 +35,13 @@ public class AssignmentDAO {
 				int grade = rs.getInt("grade");
 				int graderId = rs.getInt("grader_id");
 				int authorId = rs.getInt("author_id");
+				String authorfirstName = rs.getString("a_first_name");
+				String authorlastName = rs.getString("a_last_name");
+				String graderFirstName = rs.getString("g_first_name");
+				String graderLastName = rs.getString("g_last_name");
 				
-				Assignment assignment = new Assignment(id, assignmentName, grade, graderId, authorId);
+				Assignment assignment = new Assignment(id, assignmentName, grade, graderId, authorId, 
+						authorfirstName, authorlastName, graderFirstName, graderLastName);
 				
 				assignments.add(assignment);
 			}
